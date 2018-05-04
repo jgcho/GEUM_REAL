@@ -1,5 +1,5 @@
 rem @echo off
-set logDate=20180402
+set logDate=20180504
 echo %logDate% > "E:\KMADATA\forecast_input\ymd.dat"
 
 mkdir 02.ws_hor\%logDate%

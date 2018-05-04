@@ -80,8 +80,8 @@ subroutine READPNT
       allocate(WLprec(lm))
       allocate(WRprec(lm))
       
-      allocate(WLwth(nw-1,nwt)) ! nw-1=5, nwt=2
-      allocate(WRwth(nw-1,nwt)) ! 5개변수 항목, 2개 지점 2016.08.04
+      allocate(WLwth(nw-1,lm)) ! nw-1=5, lm=15 2018.05.04
+      allocate(WRwth(nw-1,lm)) ! 5개변수 항목, 15개 지점 2018.05.04
 
       
       rewind(12)
@@ -142,7 +142,7 @@ subroutine WRITEPRE
       
       write(cou,'(3a)') cdir,cymd,'.pre'
       open(51,file=cou)
-      write(51,'(a,100(a,i1,a,a))') 'yyyy-mm-dd hh:mm',(',',l,'_',code(l),',',l,'_',code(l),l=1,lm)
+      write(51,'(a,100(a,i2.2,a,a))') 'yyyy-mm-dd hh:mm',(',',l,'_',code(l),',',l,'_',code(l),l=1,lm)
       
       ih=0
       do l=0,Lmax ! LDAPS prec.
@@ -256,7 +256,7 @@ subroutine READWTH
 endsubroutine !subroutine READWTH
 
 subroutine WRITEWTH
-      real TMPWTH1(nw-1,nwt),TMPWTH2(nw-1,nwt)
+      real TMPWTH1(nw-1,lm),TMPWTH2(nw-1,lm) ! 2018.05.04 jgcho 2->15
       character*9 cwthd(nw-1)
       data cwthd/'TEM(C)','RH(%)','WS(m/s)','PRES(kPa)','SR(MJ/m2)'/
 
@@ -267,13 +267,13 @@ subroutine WRITEWTH
       write(cou,'(3a)') cdir,cymd,'.wth'
       open(52,file=cou)
       write(52,'(a,100(4a))') 'yyyy-mm-dd hh:mm', &
-      ((',',code(l),'_',trim(cwthd(n)),n=1,nw-1),l=1,nwt)
+      ((',',code(l),'_',trim(cwthd(n)),n=1,nw-1),l=1,lm) ! 2018.05.04 2->15 jgcho
       
       ih=0
       do l=0,Lmax ! LDAPS Start
         call WDATE
 
-        do ll=1,nwt ! 지점
+        do ll=1,lm ! 지점 2018.05.04 2->15 jgcho
           do n=1,nw-1 ! 항목
             if (n.eq.1) then ! Air tem.(oC)
               WLwth(n,ll)=Lwth(Li(ll),Lj(ll),l,n) - 273.15
@@ -291,7 +291,7 @@ subroutine WRITEWTH
             
           enddo
         enddo
-        write(52,5201) iy,mn,idy,ih,((WLwth(n,ll),n=1,nw-1),ll=1,nwt)
+        write(52,5201) iy,mn,idy,ih,((WLwth(n,ll),n=1,nw-1),ll=1,lm) !2018.05.04 2->15 jgcho
 
         ih=ih+1
       enddo ! LDAPS end
@@ -300,7 +300,7 @@ subroutine WRITEWTH
       w2=1./3.  ! interpolation raate 2
       do l=36,Rmax-3,3 ! RDAPS Start
         write(*,*) l  
-        do ll=1,nwt
+        do ll=1,lm !nwt
           do n=1,nw-1
             if (n.eq.1) then ! Air tem.(oC)
               TMPWTH1(n,ll)=w1*Rwth(Ri(ll),Rj(ll),l,n) + w2*Rwth(Ri(ll),Rj(ll),l+3,n)
@@ -339,21 +339,21 @@ subroutine WRITEWTH
         enddo
         
         call WDATE
-        write(52,5201) iy,mn,idy,ih,((TMPWTH1(n,ll),n=1,nw-1),ll=1,nwt)
+        write(52,5201) iy,mn,idy,ih,((TMPWTH1(n,ll),n=1,nw-1),ll=1,lm) !2018.05.04 2->15 jgcho
         ih=ih+1
         
         call WDATE
-        write(52,5201) iy,mn,idy,ih,((TMPWTH2(n,ll),n=1,nw-1),ll=1,nwt)
+        write(52,5201) iy,mn,idy,ih,((TMPWTH2(n,ll),n=1,nw-1),ll=1,lm) !2018.05.04 2->15 jgcho
         ih=ih+1
         
         call WDATE
-        write(52,5201) iy,mn,idy,ih,((WRwth(n,ll),n=1,nw-1),ll=1,nwt)
+        write(52,5201) iy,mn,idy,ih,((WRwth(n,ll),n=1,nw-1),ll=1,lm) !2018.05.04 2->15 jgcho
         ih=ih+1
       enddo ! RDAPS End
 
 !      close(52)
 ! 5201 format(i4.4,'-',i2.2,'-',i2.2,' ',i2.2,':00',<nwt>(',',f5.1,',',f5.1,',',f6.2,',',f4.1,',',f5.2))
- 5201 format(i4.4,'-',i2.2,'-',i2.2,' ',i2.2,':00',<nwt>(',',f5.1,',',f5.1,',',f4.1,',',f6.2,',',f5.2))
+ 5201 format(i4.4,'-',i2.2,'-',i2.2,' ',i2.2,':00',<lm>(',',f5.1,',',f5.1,',',f4.1,',',f6.2,',',f5.2))
 
 endsubroutine !subroutine WRITEWTH
 
