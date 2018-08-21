@@ -125,9 +125,9 @@ cd 00.program
 ws_make.exe
 cd ..
 
-echo open ftp://administrator:rmarkd12#@en-gis.asuscomm.com:3221> ws_ftp_exe.txt
+echo open ftp://realtime:rmarkd23@118.219.45.145:1023> ws_ftp_exe.txt
 echo option confirm off>> ws_ftp_exe.txt
-echo cd ./3_Met_Data/gum_hg>> ws_ftp_exe.txt
+echo cd ./3_Met_Data>> ws_ftp_exe.txt
 echo put E:\KMADATA\forecast_input\02.ws_hor\%logDate%\%logDate%.pre>> ws_ftp_exe.txt
 echo put E:\KMADATA\forecast_input\02.ws_hor\%logDate%\%logDate%.wth>> ws_ftp_exe.txt
 echo exit>> ws_ftp_exe.txt
