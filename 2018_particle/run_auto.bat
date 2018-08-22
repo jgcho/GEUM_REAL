@@ -1,3 +1,4 @@
+rem 20180821 fix
 rem @echo off
 set logDate=%1
 if not "%logDate%"=="" goto MVAUTO
