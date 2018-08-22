@@ -208,8 +208,44 @@ copy E:\KMADATA\forecast_input\"y_wind_yecs_%TODAY%.wnd" E:\KMADATA\2018_particl
 copy E:\KMADATA\forecast_input\"x_wind_geum_%TODAY%.wnd" E:\KMADATA\2018_particle\00setup_model\00large\step3_wave\x_wind_geum.wnd
 copy E:\KMADATA\forecast_input\"y_wind_geum_%TODAY%.wnd" E:\KMADATA\2018_particle\00setup_model\00large\step3_wave\y_wind_geum.wnd
 
+REM ++++++++++++++++++++++++++++++++++++++++++++
+REM + 유역모델로 기상자료 업로드 처리 START
+REM ++++++++++++++++++++++++++++++++++++++++++++
 call E:\KMADATA\watershed_realtime\sheddown.bat
 cd ..
+REM --------------------------------------------
+REM - 유역모델로 기상자료 업로드 처리 END
+REM --------------------------------------------
+
+REM ++++++++++++++++++++++++++++++++++++++++++++
+REM + 유역모델 결과 다운로드 처리 START
+REM ++++++++++++++++++++++++++++++++++++++++++++
+
+REM 다운로드 위치는 E:\KMADATA\watershed_realtime\%DATE_TODAY%\
+
+REM --------------------------------------------
+REM - 유역모델 결과 다운로드 처리 END
+REM --------------------------------------------
+
+REM ++++++++++++++++++++++++++++++++++++++++++++
+REM + 유역모델이 안돌았을 경우 START
+REM ++++++++++++++++++++++++++++++++++++++++++++
+
+REM 다운로드 위치는 E:\KMADATA\watershed_realtime\%DATE_TODAY%\
+REM 위에 오늘날짜의 0 data 생성
+
+REM --------------------------------------------
+REM - 유역모델이 안돌았을 경우 END
+REM --------------------------------------------
+
+REM ++++++++++++++++++++++++++++++++++++++++++++
+REM + 하구둑 방류량 처리 START
+REM ++++++++++++++++++++++++++++++++++++++++++++
+REM 위치는 E:\KMADATA/2018_particle/00setup_model/00small/step0_boxSet
+REM 파일명은 RLT_079.DAT 형식은 RLT_078.DAT 유지. 방류량만 산정 /7 할 것
+REM --------------------------------------------
+REM - 하구둑 방류량 처리 END
+REM --------------------------------------------
 
 cd 2018_particle
 copy E:\KMADATA\watershed_realtime\%DATE_TODAY%\"%TODAY%_Flowrate.csv" E:\KMADATA\2018_particle\00setup_model\00small\step0_boxSet\
